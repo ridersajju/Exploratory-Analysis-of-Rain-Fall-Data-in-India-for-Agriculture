@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rainfall Prediction</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+    background-size:cover;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:40px 0;
+}
+
+/* Green overlay */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,80,0,0.25);
+    z-index:0;
+}
+
+.container{
+    position:relative;
+    z-index:1;
+    width:520px;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.4);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#222;
+    font-weight:600;
+}
+
+label{
+    display:block;
+    margin-top:14px;
+    margin-bottom:5px;
+    font-size:14px;
+    color:#333;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+    outline:none;
+    transition:0.3s;
+}
+
+input:focus, select:focus{
+    border-color:#1e7e34;
+    box-shadow:0 0 6px rgba(30,126,52,0.5);
+}
+
+button{
+    margin-top:25px;
+    width:100%;
+    padding:13px;
+    font-size:18px;
+    font-weight:600;
+    background:#1e7e34;
+    color:white;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s ease;
+    box-shadow:0 6px 20px rgba(0,0,0,0.3);
+}
+
+button:hover{
+    background:#145c25;
+    transform:scale(1.03);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🌧 Rainfall Prediction</h1>
+
+<form action="{{ url_for('predict')}}" method="post">
+
+<label>Location</label>
+<select name="Location" required>
+<option value="Sydney">Sydney</option>
+<option value="Melbourne">Melbourne</option>
+<option value="Brisbane">Brisbane</option>
+<option value="Canberra">Canberra</option>
+<option value="Cairns">Cairns</option>
+<option value="Adelaide">Adelaide</option>
+</select>
+
+<label>MinTemp</label>
+<input type="number" step="0.1" name="MinTemp" required>
+
+<label>MaxTemp</label>
+<input type="number" step="0.1" name="MaxTemp" required>
+
+<label>Rainfall (mm)</label>
+<input type="number" step="0.1" name="Rainfall" required>
+
+<label>WindGustSpeed</label>
+<input type="number" step="0.1" name="Windgustspeed" required>
+
+<label>WindSpeed9am</label>
+<input type="number" step="0.1" name="Windspeed9am" required>
+
+<label>WindSpeed3pm</label>
+<input type="number" step="0.1" name="Windspeed3pm" required>
+
+<label>Humidity9am</label>
+<input type="number" step="0.1" name="Humidity9am" required>
+
+<label>Humidity3pm</label>
+<input type="number" step="0.1" name="Humidity3pm" required>
+
+<label>Pressure9am</label>
+<input type="number" step="0.1" name="Pressure9am" required>
+
+<label>Pressure3pm</label>
+<input type="number" step="0.1" name="Pressure3pm" required>
+
+<label>Temp9am</label>
+<input type="number" step="0.1" name="Temp9am" required>
+
+<label>Temp3pm</label>
+<input type="number" step="0.1" name="Temp3pm" required>
+
+<label>RainToday</label>
+<select name="RainToday" required>
+<option value="Yes">Yes</option>
+<option value="No">No</option>
+</select>
+
+<label>Year</label>
+<input type="number" name="year" required>
+
+<label>Month</label>
+<input type="number" name="month" required>
+
+<label>Day</label>
+<input type="number" name="day" required>
+
+<button type="submit">START PREDICT</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

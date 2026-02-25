@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Thunderstorm Warning</title>
+
+<style>
+body {
+    margin:0;
+    padding:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:Arial;
+    background: linear-gradient(#0f2027,#000000);
+    color:white;
+}
+
+/* DARK SKY */
+body::after{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+}
+
+/* CLOUDS */
+.cloud {
+    position:absolute;
+    width:250px;
+    height:70px;
+    background:#aaa;
+    border-radius:60px;
+    opacity:0.6;
+    animation: moveClouds linear infinite;
+}
+
+.cloud:before, .cloud:after {
+    content:"";
+    position:absolute;
+    background:#aaa;
+    border-radius:50%;
+}
+
+.cloud:before {
+    width:120px;
+    height:100px;
+    top:-50px;
+    left:30px;
+}
+
+.cloud:after {
+    width:150px;
+    height:130px;
+    top:-70px;
+    right:30px;
+}
+
+@keyframes moveClouds {
+    from { transform:translateX(-300px); }
+    to { transform:translateX(120vw); }
+}
+
+/* RAIN */
+.rain { position:absolute; width:100%; height:100%; pointer-events:none; }
+
+.drop {
+    position:absolute;
+    bottom:100%;
+    width:3px;
+    background:linear-gradient(transparent,#00bfff);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to { transform:translateY(110vh); }
+}
+
+/* SPLASH */
+.splash {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:25px;
+    background: radial-gradient(circle,#00bfff 10%,transparent 70%);
+    animation: splashAnim 0.4s infinite alternate;
+}
+
+@keyframes splashAnim {
+    from { opacity:0.4; }
+    to { opacity:0.9; }
+}
+
+/* PANEL */
+.overlay {
+    position:relative;
+    z-index:10;
+    text-align:center;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(15px);
+    padding:40px;
+    border-radius:20px;
+    width:500px;
+    margin:auto;
+    top:50%;
+    transform:translateY(-50%);
+    box-shadow:0 0 40px rgba(0,0,0,0.8);
+}
+
+/* LIGHTNING */
+.flash {
+    animation: lightning 0.15s;
+}
+
+@keyframes lightning {
+    0% { background:white; }
+    100% { background: linear-gradient(#0f2027,#000000); }
+}
+
+.umbrella {
+    font-size:70px;
+    animation: swing 2s infinite ease-in-out;
+}
+
+@keyframes swing {
+    0%{ transform:rotate(-8deg);}
+    50%{ transform:rotate(8deg);}
+    100%{ transform:rotate(-8deg);}
+}
+
+a{
+    color:#00bfff;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- CLOUDS -->
+<div class="cloud" style="top:50px; animation-duration:40s;"></div>
+<div class="cloud" style="top:120px; animation-duration:60s;"></div>
+<div class="cloud" style="top:200px; animation-duration:50s;"></div>
+<div class="cloud" style="top:280px; animation-duration:70s;"></div>
+<div class="cloud" style="top:350px; animation-duration:45s;"></div>
+
+<div class="rain" id="rain"></div>
+<div class="splash"></div>
+
+<div class="overlay">
+    <h1>🌩️ Thunderstorm Alert</h1>
+    <h2>Rain Probability: {{ prob }} %</h2>
+    <div class="umbrella">☂</div>
+    <p>Severe rain expected. Stay indoors!</p>
+    <a href="/">Go Back</a>
+</div>
+
+<!-- LOCAL AUDIO -->
+<audio id="rainSound" loop preload="auto">
+    <source src="{{ url_for('static', filename='sounds/rain.mp3') }}" type="audio/mpeg">
+</audio>
+
+<audio id="thunderSound" preload="auto">
+    <source src="{{ url_for('static', filename='sounds/thunder.mp3') }}" type="audio/mpeg">
+</audio>
+
+<script>
+const rainProbability = {{ prob }};
+
+function createRain() {
+    const rainContainer = document.getElementById("rain");
+    let dropsCount = Math.floor(rainProbability * 3);
+
+    for (let i = 0; i < dropsCount; i++) {
+        let drop = document.createElement("div");
+        drop.classList.add("drop");
+        drop.style.left = Math.random()*100+"vw";
+        drop.style.height = (60 + Math.random()*80)+"px";
+        drop.style.animationDuration = (0.3 + Math.random())+"s";
+        rainContainer.appendChild(drop);
+    }
+}
+
+function lightning() {
+    document.body.classList.add("flash");
+
+    const thunder = document.getElementById("thunderSound");
+    thunder.currentTime = 0;
+    thunder.play();
+
+    setTimeout(()=>{
+        document.body.classList.remove("flash");
+    },150);
+}
+
+createRain();
+
+/* CLICK TO START STORM */
+document.addEventListener("click", function startStorm() {
+    const rainAudio = document.getElementById("rainSound");
+    rainAudio.volume = 0.5;
+    rainAudio.play();
+
+    document.removeEventListener("click", startStorm);
+});
+
+/* Lightning randomly */
+setInterval(()=>{
+    lightning();
+}, 6000 + Math.random()*4000);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rainfall Analysis</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+    height:100vh;
+    background: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+    position:relative;
+    color:white;
+}
+
+/* Green Overlay */
+body::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(to right, rgba(0,80,0,0.85), rgba(0,150,0,0.4));
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    max-width:900px;
+    padding:80px;
+}
+
+h1{
+    font-size:48px;
+    font-weight:700;
+    line-height:1.3;
+    margin-bottom:30px;
+}
+
+.features{
+    list-style:none;
+    font-size:20px;
+    line-height:40px;
+    margin-bottom:40px;
+}
+
+.features li{
+    display:flex;
+    align-items:center;
+}
+
+.features li::before{
+    content:"✔";
+    margin-right:12px;
+    color:#00ff66;
+    font-weight:bold;
+}
+
+button{
+    padding:15px 35px;
+    font-size:20px;
+    font-weight:600;
+    background:#00aa33;
+    border:none;
+    border-radius:12px;
+    color:white;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,0.4);
+    transition:0.3s ease;
+}
+
+button:hover{
+    background:#008f2a;
+    transform:scale(1.05);
+}
+
+.footer{
+    position:absolute;
+    bottom:15px;
+    left:30px;
+    font-size:14px;
+    opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>
+        Exploratory Analysis of<br>
+        Rain Fall Data in India<br>
+        for Agriculture
+    </h1>
+
+    <ul class="features">
+        <li>Real-time rainfall monitoring</li>
+        <li>Machine-learning powered analysis</li>
+        <li>High-accuracy rainfall predictions</li>
+        <li>Instant rainfall trend verification</li>
+        <li>Secure data processing</li>
+    </ul>
+
+    <form action="/predict_page">
+        <button type="submit">START PREDICT</button>
+    </form>
+</div>
+
+<div class="footer">
+    27°C | Mostly sunny
+</div>
+
+</body>
+</html>
